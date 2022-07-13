@@ -11,16 +11,13 @@ const TempConvertor = () => {
     if (!value.length) {
       setResultTemp("");
     }
-    setInputVal(value);
-    
 
+    setInputVal(value);
     if (e.target.className === "input-2" && showOnSecond === true) {
       setShowOnSecond(false);
     } else if (e.target.className === "input-1" && showOnSecond === false) {
       setShowOnSecond(true);
     }
-
-    
   };
 
   useEffect(() => {
@@ -36,12 +33,6 @@ const TempConvertor = () => {
       setResultTemp(result.toString());
     }
   }, [showOnSecond, inputVal])
-
-  const toggleToCelsius = () => {
-    setInputVal("");
-    setResultTemp("");
-    setToCelsius(!toCelsius);
-  };
 
   return (
     <>
