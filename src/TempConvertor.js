@@ -1,63 +1,41 @@
 import React, { useEffect, useState } from "react";
 
 const TempConvertor = () => {
-  const [resultTemp, setResultTemp] = useState("");
-  const [inputVal, setInputVal] = useState("");
-  const [toCelsius, setToCelsius] = useState(true);
-  const [showOnSecond, setShowOnSecond] = useState(true);
+  const [main, setMain] = useState({ temp: 32, scale: 'f' });
 
-  const convertTemp = (e) => {
-    const { value } = e.target;
-    if (!value.length) {
-      setResultTemp("");
-    }
+  const handleFahrenheit = (e) => {
+    setMain({ temp: e.target.value, scale: 'f' });
+  }
 
-    setInputVal(value);
-    if (e.target.className === "input-2" && showOnSecond === true) {
-      setShowOnSecond(false);
-    } else if (e.target.className === "input-1" && showOnSecond === false) {
-      setShowOnSecond(true);
-    }
-  };
+  const handleCelsius = (e) => {
+    setMain({ temp: e.target.value, scale: 'c' });
+  }
 
-  useEffect(() => {
-    if (!inputVal.length) return;
-    const floatVal = parseFloat(inputVal);
-    if (showOnSecond) {
-      // Converting into celsius
-      const result = ((floatVal - 32) * 5) / 9;
-      setResultTemp(result.toString());
-    } else {
-      // Converting into fahrenheit
-      const result = (floatVal * 9 / 5) + 32;
-      setResultTemp(result.toString());
-    }
-  }, [showOnSecond, inputVal])
+  const fahrenheit = main.scale === 'c' ? (main.temp.toString().length ? main.temp * 9 / 5 + 32 : ""): main.temp;
+  const celsius = main.scale === 'f' ? (main.temp.toString().length ? (main.temp - 32) * 5 / 9: "") : main.temp;
 
   return (
     <>
       <div className="temperature-container">
         <div>
-          <label htmlFor="temp-1">{toCelsius ? "Fahrenheit" : "Celsius"}</label>
+          <label htmlFor="fahrenheit">Fahrenheit</label>
           <input
             type="number"
-            id="temp-1"
-            className="input-1"
-            onChange={convertTemp}
-            value={`${showOnSecond ? inputVal : resultTemp}`}
+            id="fahrenheit"
+            onChange={handleFahrenheit}
+            value={fahrenheit}
           />
         </div>
         <div className="repeat-arrow">
           <i className="fa-solid fa-repeat"></i>
         </div>
         <div>
-          <label htmlFor="temp-2">{toCelsius ? "Celsius" : "Fahrenheit"}</label>
+          <label htmlFor="celsius">Celsius</label>
           <input
             type="number"
-            id="temp-2"
-            className="input-2"
-            value={`${showOnSecond ? resultTemp : inputVal}`}
-            onChange={convertTemp}
+            id="celsius"
+            value={celsius}
+            onChange={handleCelsius}
           />
         </div>
       </div>
